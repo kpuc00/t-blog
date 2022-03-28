@@ -20,6 +20,7 @@ const settings = ["Profile", "Account", "Logout"];
 const username = "John Doe";
 
 const Navbar = () => {
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -39,63 +40,64 @@ const Navbar = () => {
             src={Logo}
           />
         </Box>
-
-        <Box>
-          <Tooltip title="Open settings">
-            <Button
-              onClick={handleOpenUserMenu}
-              sx={{ p: 0, color: "#ffffff", textTransform: "inherit" }}
+        {loggedIn && (
+          <Box>
+            <Tooltip title="Open settings">
+              <Button
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0, color: "#ffffff", textTransform: "inherit" }}
+              >
+                <Avatar
+                  alt={username}
+                  src="/static/images/avatar/2.jpg"
+                  sx={{ mr: 1 }}
+                ></Avatar>
+                {username}
+                <ArrowDropDownIcon />
+              </Button>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-              <Avatar
-                alt={username}
-                src="/static/images/avatar/2.jpg"
-                sx={{ mr: 1 }}
-              />
-              {username}
-              <ArrowDropDownIcon />
-            </Button>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-          <IconButton
-            size="large"
-            aria-label="show 4 new mails"
-            color="inherit"
-          >
-            <Badge badgeContent={4} color="error">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="inherit"
-          >
-            <Badge badgeContent={17} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Box>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={88} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={8} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );
