@@ -2,23 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Divider from "@mui/material/Divider";
-
-function Copyright() {
-  return (
-    <Box>
-      <Divider variant="middle" sx={{ m: 3 }} />
-      <Typography variant="body1" color="text.secondary">
-        {"Powered by © "}
-        <Link color="inherit" href="/">
-          T-blog
-        </Link>{" "}
-        {new Date().getFullYear()}
-      </Typography>
-    </Box>
-  );
-}
+import Copyright from "./Copyright";
 
 const Footer = () => {
   return (
