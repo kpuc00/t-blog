@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
@@ -76,7 +76,9 @@ const Navbar = (props) => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Profile</Typography>
+                <Link href="/profile" color="inherit" underline="none">
+                  Profile
+                </Link>
               </MenuItem>
               <MenuItem divider onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">Account</Typography>

@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { light } from "./themes";
+import light from "./themes/light";
 import App from "./App";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";

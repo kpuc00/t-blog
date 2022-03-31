@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -49,31 +49,31 @@ const Dashboard = () => {
 
           <Divider />
           <List>
-            <ListItemButton>
+            <ListItemButton component="a" href="/dashboard/articles">
               <ListItemIcon>
                 <ArticleIcon />
               </ListItemIcon>
               <ListItemText primary="Articles" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton component="a" href="/dashboard/statistics">
               <ListItemIcon>
                 <AnalyticsIcon />
               </ListItemIcon>
               <ListItemText primary="Statistics" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton component="a" href="/dashboard/comments">
               <ListItemIcon>
                 <ForumIcon />
               </ListItemIcon>
               <ListItemText primary="Comments" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton component="a" href="/dashboard/pages">
               <ListItemIcon>
                 <PagesIcon />
               </ListItemIcon>
               <ListItemText primary="Pages" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton component="a" href="/dashboard/settings">
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
