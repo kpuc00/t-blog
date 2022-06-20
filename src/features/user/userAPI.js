@@ -5,6 +5,16 @@ const domain =
 
 const api = "users/";
 
+function register(first_name, last_name, username, email, password) {
+  return fetch(domain + api + "register", {
+    method: "POST",
+    body: JSON.stringify({ first_name, last_name, username, email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 function login(username, password) {
   const formBody = `username=${username}&password=${password}`;
   return fetch(domain + api + "login", {
@@ -31,4 +41,4 @@ function getOwnUserData() {
   });
 }
 
-export { login, logout, getOwnUserData };
+export { register, login, logout, getOwnUserData };

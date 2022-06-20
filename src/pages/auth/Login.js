@@ -30,9 +30,8 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const username = data.get("username");
-    const password = data.get("password");
-    console.log({ username, password });
+    const username = data.get("username").trim().toLowerCase();
+    const password = data.get("password").trim();
     dispatch(loginUser({ username, password }));
   };
 
@@ -70,7 +69,6 @@ export default function Login() {
 
           <Box
             component="form"
-            noValidate
             onSubmit={handleSubmit}
             sx={{ mt: 1, textAlign: "initial" }}
           >

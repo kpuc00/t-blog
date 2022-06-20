@@ -1,6 +1,9 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Alert from "@mui/material/Alert";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -9,15 +12,35 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Copyright } from "../../components";
+import {
+  selectLoading,
+  selectError,
+  registerUser,
+  selectRegistered,
+} from "../../features/user/userSlice";
 
 export default function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const registered = useSelector(selectRegistered);
+
+  useEffect(() => {
+    if (registered) navigate("/login");
+  }, [navigate, registered]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const first_name = data.get("first_name").trim();
+    const last_name = data.get("last_name").trim();
+    const username = data.get("username").trim().toLowerCase();
+    const email = data.get("email").trim();
+    const password = data.get("password").trim();
+    dispatch(
+      registerUser({ first_name, last_name, username, email, password })
+    );
   };
 
   return (
@@ -36,15 +59,21 @@ export default function Register() {
         <Typography component="h1" variant="h5">
           Register at T-blog
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
+            {error && (
+              <Grid item xs={12}>
+                <Alert severity="error">{error}</Alert>
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="given-name"
-                name="firstName"
+                name="first_name"
                 required
                 fullWidth
-                id="firstName"
+                id="first_name"
                 label="First Name"
                 autoFocus
               />
@@ -53,9 +82,9 @@ export default function Register() {
               <TextField
                 required
                 fullWidth
-                id="lastName"
+                id="last_name"
                 label="Last Name"
-                name="lastName"
+                name="last_name"
                 autoComplete="family-name"
               />
             </Grid>
@@ -102,14 +131,15 @@ export default function Register() {
               />
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            loading={loading}
           >
             Register
-          </Button>
+          </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/login" variant="body2">
