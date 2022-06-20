@@ -1,3 +1,2 @@
-import authReducer from "./auth/authSlice";
-import counterReducer from "./counter/counterSlice";
-export { authReducer, counterReducer };
+import userReducer from "./user/userSlice";
+export { userReducer };

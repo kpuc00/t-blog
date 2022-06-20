@@ -1,10 +1,12 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { BlogsList, Footer, Navbar } from "../components";
+import { getCurrentUser, selectUserData } from "../features/user/userSlice";
 
 const PREFIX = "Profile";
 
@@ -27,27 +29,33 @@ const blogs = [
   { id: 5, title: "Blog 5", img: "img 5" },
 ];
 
-const other = [
-  { id: 1, title: "Other blog 1", img: "img 1" },
-  { id: 2, title: "Other blog 2", img: "img 2" },
-];
+const other = [];
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const userData = useSelector(selectUserData);
+  useEffect(() => {
+    console.log("userData", userData);
+    if (!userData) dispatch(getCurrentUser());
+  });
   return (
     <div>
       <Navbar />
-      <StyledBox sx={{ pt: 3, pb: 3 }}>
-        <Stack alignItems="center">
-          <Avatar
-            className={classes.avatar}
-            alt="John Doe"
-            src="/static/images/avatar/1.jpg"
-          />
-          <Typography variant="h5">John Doe</Typography>
-        </Stack>
-        <BlogsList title="Your blogs" blogs={blogs} />
-        <BlogsList title="Other blogs" blogs={other} />
-      </StyledBox>
+      {userData && (
+        <StyledBox sx={{ pt: 3, pb: 3 }}>
+          <Stack alignItems="center">
+            <Avatar
+              className={classes.avatar}
+              alt={`${userData.first_name} ${userData.last_name}`}
+              src="/static/images/avatar/1.jpg"
+            />
+            <Typography variant="h5">{`${userData.first_name} ${userData.last_name}`}</Typography>
+          </Stack>
+          <BlogsList title="Your blogs" blogs={blogs} />
+          <BlogsList title="Other blogs" blogs={other} />
+        </StyledBox>
+      )}
+
       <Footer />
     </div>
   );

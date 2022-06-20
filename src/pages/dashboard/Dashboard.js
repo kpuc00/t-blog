@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate, Outlet, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Navbar } from "../components";
+import { Navbar } from "../../components";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
@@ -22,6 +22,12 @@ import PreviewIcon from "@mui/icons-material/Preview";
 const drawerWidth = 240;
 
 const Dashboard = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (location.pathname === "/dashboard") navigate("/dashboard/articles");
+  });
+
   return (
     <Box sx={{ display: "flex" }}>
       <Navbar position="fixed" />
@@ -49,31 +55,31 @@ const Dashboard = () => {
 
           <Divider />
           <List>
-            <ListItemButton component="a" href="/dashboard/articles">
+            <ListItemButton component={Link} to="/dashboard/articles">
               <ListItemIcon>
                 <ArticleIcon />
               </ListItemIcon>
               <ListItemText primary="Articles" />
             </ListItemButton>
-            <ListItemButton component="a" href="/dashboard/statistics">
+            <ListItemButton component={Link} to="/dashboard/statistics">
               <ListItemIcon>
                 <AnalyticsIcon />
               </ListItemIcon>
               <ListItemText primary="Statistics" />
             </ListItemButton>
-            <ListItemButton component="a" href="/dashboard/comments">
+            <ListItemButton component={Link} to="/dashboard/comments">
               <ListItemIcon>
                 <ForumIcon />
               </ListItemIcon>
               <ListItemText primary="Comments" />
             </ListItemButton>
-            <ListItemButton component="a" href="/dashboard/pages">
+            <ListItemButton component={Link} to="/dashboard/pages">
               <ListItemIcon>
                 <PagesIcon />
               </ListItemIcon>
               <ListItemText primary="Pages" />
             </ListItemButton>
-            <ListItemButton component="a" href="/dashboard/settings">
+            <ListItemButton component={Link} to="/dashboard/settings">
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>

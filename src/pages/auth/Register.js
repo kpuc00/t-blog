@@ -2,8 +2,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -65,6 +63,16 @@ export default function Register() {
               <TextField
                 required
                 fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
@@ -80,6 +88,17 @@ export default function Register() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="confirm-password"
+                label="Confirm Password"
+                type="password"
+                id="confirm-password"
+                autoComplete="confirm-password"
               />
             </Grid>
           </Grid>
