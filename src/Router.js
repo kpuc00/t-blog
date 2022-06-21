@@ -31,7 +31,7 @@ const Router = () => {
         element={user ? <Navigate replace to="/" /> : <Register />}
       />
       <Route
-        path="/dashboard"
+        path="/:blogId/dashboard"
         element={user ? <Dashboard /> : <Navigate replace to="/login" />}
       >
         <Route path="articles" element={<Articles />} />

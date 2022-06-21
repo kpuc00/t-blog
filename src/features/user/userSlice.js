@@ -22,7 +22,7 @@ const initialState = {
 // typically used to make async requests.
 
 export const registerUser = createAsyncThunk(
-  "user/regUser",
+  "user/registerUser",
   async (params, thunkAPI) => {
     const response = await register(
       params.first_name,
@@ -31,8 +31,7 @@ export const registerUser = createAsyncThunk(
       params.email,
       params.password
     );
-    const json = await response.json();
-    return { status: response.status, ...json };
+    return { status: response.status, data: await response.json() };
   }
 );
 
@@ -41,7 +40,7 @@ export const loginUser = createAsyncThunk(
   async (params, thunkAPI) => {
     const response = await login(params.username, params.password);
     // The value we return becomes the `fulfilled` action payload
-    return { status: response.status, ...(await response.json()) };
+    return { status: response.status, data: await response.json() };
   }
 );
 
@@ -50,14 +49,14 @@ export const getCurrentUser = createAsyncThunk(
   async () => {
     const response = await getOwnUserData();
     // The value we return becomes the `fulfilled` action payload
-    return { status: response.status, ...(await response.json()) };
+    return { status: response.status, data: await response.json() };
   }
 );
 
 export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
   const response = await logout();
   // The value we return becomes the `fulfilled` action payload
-  return { status: response.status, ...(await response.json()) };
+  return { status: response.status, data: await response.json() };
 });
 
 export const userSlice = createSlice({
@@ -84,9 +83,9 @@ export const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         const payload = action.payload;
         if (payload.status === 201) {
-          state.message = payload.message;
+          state.message = payload.data.message;
           state.registered = true;
-        } else state.error = payload.detail;
+        } else state.error = payload.data.detail;
         state.loading = false;
       })
       .addCase(registerUser.rejected, (state) => {
@@ -103,39 +102,16 @@ export const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         const payload = action.payload;
         if (payload.status === 200) {
-          state.user = action.payload.id;
-          cookie.save("c_user", action.payload.id, {
+          state.user = payload.data.id;
+          cookie.save("c_user", payload.data.id, {
             path: "/",
           });
-        } else if (payload.status === 401) state.error = payload.detail;
+        } else if (payload.status === 401 || payload.status === 400)
+          state.error = payload.data.detail;
         else state.error = "Something went wrong! Please try again later.";
         state.loading = false;
       })
       .addCase(loginUser.rejected, (state) => {
-        state.loading = false;
-        state.error = "Something went wrong! Please try again later.";
-      });
-
-    builder
-      .addCase(getCurrentUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.message = null;
-      })
-      .addCase(getCurrentUser.fulfilled, (state, action) => {
-        const payload = action.payload;
-        if (payload.status === 200) {
-          state.userData = payload;
-        } else if (payload.status === 401) {
-          state.user = null;
-          state.userData = null;
-          cookie.remove("c_user");
-          state.loading = false;
-          state.message = "Your session is expired!";
-        } else state.error = "Something went wrong! Please try again later.";
-        state.loading = false;
-      })
-      .addCase(getCurrentUser.rejected, (state) => {
         state.loading = false;
         state.error = "Something went wrong! Please try again later.";
       });
@@ -153,10 +129,37 @@ export const userSlice = createSlice({
           state.userData = null;
           cookie.remove("c_user");
           state.loading = false;
-          state.message = payload.message;
+          state.message = payload.data.message;
         }
       })
       .addCase(logoutUser.rejected, (state) => {
+        state.loading = false;
+        state.error = "Something went wrong! Please try again later.";
+      });
+
+    builder
+      .addCase(getCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.message = null;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        const payload = action.payload;
+        if (payload.status === 200) {
+          state.userData = payload.data;
+        } else if (payload.status === 401 || payload.status === 400) {
+          state.user = null;
+          state.userData = null;
+          cookie.remove("c_user");
+          state.loading = false;
+          state.message =
+            payload.status === 401
+              ? "Your session is expired!"
+              : payload.data.detail;
+        } else state.error = "Something went wrong! Please try again later.";
+        state.loading = false;
+      })
+      .addCase(getCurrentUser.rejected, (state) => {
         state.loading = false;
         state.error = "Something went wrong! Please try again later.";
       });

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "@mui/material/Link";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
@@ -83,8 +83,11 @@ const Navbar = (props) => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem divider onClick={handleCloseUserMenu}>
-                <Link href="/profile" color="inherit" underline="none">
-                  Profile
+                <Link
+                  to="/"
+                  style={{ color: "inherit", textDecoration: "unset" }}
+                >
+                  <Typography>Profile</Typography>
                 </Link>
               </MenuItem>
               {/* <MenuItem divider onClick={handleCloseUserMenu}>

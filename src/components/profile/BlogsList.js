@@ -3,15 +3,28 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import Blog from "./Blog";
 
 const BlogsList = (props) => {
-  const { title, blogs } = props;
+  const { title, blogs, btnAction } = props;
   return (
     <Paper sx={{ mt: 2, mb: 2, p: 2, textAlign: "initial" }} elevation={3}>
-      <Typography variant="h5">{title}</Typography>
+      <Stack direction="row" justifyContent="space-between" sx={{ pb: 3 }}>
+        <Typography variant="h5">{title}</Typography>
+        {title && title === "Your blogs" && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={btnAction}
+          >
+            Create blog
+          </Button>
+        )}
+      </Stack>
+
       {Array.isArray(blogs) && blogs.length > 0 ? (
         <Grid
           container
@@ -27,10 +40,10 @@ const BlogsList = (props) => {
           })}
         </Grid>
       ) : (
-        <Box>
-          <Button variant="contained" startIcon={<AddIcon />}>
-            Create blog
-          </Button>
+        <Box textAlign="center">
+          <Typography variant="h6">
+            Begin with creating your first blog!
+          </Typography>
         </Box>
       )}
     </Paper>

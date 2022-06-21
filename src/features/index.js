@@ -1,2 +1,3 @@
 import userReducer from "./user/userSlice";
-export { userReducer };
+import blogReducer from "./blog/blogSlice";
+export { userReducer, blogReducer };
