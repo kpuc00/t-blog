@@ -75,8 +75,8 @@ const Profile = () => {
   const handleCreateBlog = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const name = data.get("name").trim();
-    const description = data.get("description").trim();
+    const name = data.get("blogName").trim();
+    const description = data.get("blogDescription").trim();
     console.log({ name, description });
     dispatch(createBlog({ name, description }));
     handleClose();
@@ -132,7 +132,7 @@ const Profile = () => {
             autoFocus
             required
             margin="dense"
-            name="name"
+            name="blogName"
             label="Name"
             type="text"
             fullWidth
@@ -141,7 +141,7 @@ const Profile = () => {
           <TextField
             required
             margin="dense"
-            name="description"
+            name="blogDescription"
             label="Description"
             type="text"
             fullWidth
